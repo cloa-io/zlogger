@@ -1,13 +1,13 @@
 package zlogger
 
 import (
+	"github.com/cloa-io/zlogger/observer"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
 	"testing"
 	"time"
-	"zlogger/observer"
 )
 
 func TestZLogger(t *testing.T) {
