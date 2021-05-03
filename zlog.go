@@ -2,8 +2,8 @@ package zlogger
 
 import (
 	"fmt"
+	"github.com/cloa-io/zlogger/observer"
 	"go.uber.org/zap"
-	"zlogger/observer"
 )
 
 type ZLogger struct {

@@ -2,13 +2,13 @@ package zlogger
 
 import (
 	"fmt"
+	"github.com/cloa-io/zlogger/observer"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
 	"strings"
 	"time"
-	"zlogger/observer"
 )
 
 type ZLogBuilder struct {

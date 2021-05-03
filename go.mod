@@ -1,4 +1,4 @@
-module zlogger
+module github.com/cloa-io/zlogger
 
 go 1.16
 
