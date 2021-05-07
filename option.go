@@ -5,6 +5,7 @@ import "time"
 type Options struct {
 	LogLevel       string //TRACE, DEBUG, WARN, INFO, ERROR, FATAL
 	FileLogOn      bool
+	DisableConsole bool
 	LogPath        string
 	RotationLayout string
 	RotationLimit  uint
@@ -18,7 +19,7 @@ func (o *Options) init() {
 
 	if o.FileLogOn {
 		if o.LogPath == "" {
-			o.LogPath = "DEBUG.log"
+			o.LogPath = o.LogLevel + ".log"
 		}
 
 		if o.RotationLimit == 0 {

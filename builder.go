@@ -61,6 +61,11 @@ func (z ZLogBuilder) AddObserver(obs observer.LogObserver) ZLogBuilder {
 	return z
 }
 
+func (z ZLogBuilder) DisableConsole(disable bool) ZLogBuilder {
+	z.option.DisableConsole = disable
+	return z
+}
+
 func (z ZLogBuilder) Build() *ZLogger {
 	z.option.init()
 
@@ -69,7 +74,7 @@ func (z ZLogBuilder) Build() *ZLogger {
 	}
 
 	rotator := getRotator(z)
-	syncer := getWriteSyncer(rotator)
+	syncer := getWriteSyncer(rotator, z.option.DisableConsole)
 
 	core := zapcore.NewCore(z.encoder, syncer, getLogLevel(z.option.LogLevel))
 	logger := zap.New(core)
@@ -97,9 +102,15 @@ func getLogLevel(level string) zapcore.Level {
 	panic(fmt.Sprintf("unknown log level [%s] found", level))
 }
 
-func getWriteSyncer(rotator *rotatelogs.RotateLogs) zapcore.WriteSyncer {
-	if rotator != nil {
+func getWriteSyncer(rotator *rotatelogs.RotateLogs, console bool) zapcore.WriteSyncer {
+	if nil == rotator && !console {
+		panic("console & file all options are off")
+	}
+
+	if console && rotator != nil {
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(rotator), os.Stdout)
+	} else if !console && rotator != nil {
+		return zapcore.AddSync(rotator)
 	} else {
 		return os.Stdout
 	}
