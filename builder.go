@@ -102,14 +102,14 @@ func getLogLevel(level string) zapcore.Level {
 	panic(fmt.Sprintf("unknown log level [%s] found", level))
 }
 
-func getWriteSyncer(rotator *rotatelogs.RotateLogs, console bool) zapcore.WriteSyncer {
-	if nil == rotator && !console {
+func getWriteSyncer(rotator *rotatelogs.RotateLogs, disableConsole bool) zapcore.WriteSyncer {
+	if nil == rotator && disableConsole {
 		panic("console & file all options are off")
 	}
 
-	if console && rotator != nil {
+	if !disableConsole && rotator != nil {
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(rotator), os.Stdout)
-	} else if !console && rotator != nil {
+	} else if disableConsole && rotator == nil {
 		return zapcore.AddSync(rotator)
 	} else {
 		return os.Stdout
