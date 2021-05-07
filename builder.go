@@ -109,7 +109,7 @@ func getWriteSyncer(rotator *rotatelogs.RotateLogs, disableConsole bool) zapcore
 
 	if !disableConsole && rotator != nil {
 		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(rotator), os.Stdout)
-	} else if disableConsole && rotator == nil {
+	} else if disableConsole && rotator != nil {
 		return zapcore.AddSync(rotator)
 	} else {
 		return os.Stdout
