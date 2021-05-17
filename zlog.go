@@ -23,7 +23,7 @@ func (s *ZLogger) Debug(args ...interface{}) {
 }
 
 func printf(args ...interface{}) string {
-	if len(args) <= 1 {
+	if args != nil && len(args) >= 1 {
 		s := args[0]
 		return fmt.Sprintf("%s", s)
 	}
