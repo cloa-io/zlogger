@@ -1,7 +1,6 @@
 package zlogger
 
 import (
-	"github.com/cloa-io/zlogger/observer"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -11,34 +10,6 @@ import (
 )
 
 func TestZLogger(t *testing.T) {
-	//TestLog := "./logs/zlogger.log"
-
-	//t.Run("로그 파일 생성 테스트", func(t *testing.T) {
-	//	_, err := os.Open(TestLog)
-	//	if os.IsExist(err) {
-	//		err := os.Remove(TestLog)
-	//		assert.Nil(t, err)
-	//	}
-	//
-	//	logger := NewBuilder().
-	//		FileLogOn(true).
-	//		LogPath(TestLog).
-	//		RotationLayout("%Y-%m-%d-%H-%S").
-	//		RotationCycle(1 * time.Second).
-	//		Build()
-	//
-	//	now := time.Now()
-	//	format := now.Format("2006-01-02-15-05")
-	//
-	//	logger.Infof("sexy now")
-	//
-	//	assert.Truef(t, Exists(TestLog), "로그 파일이 존재해야된다")
-	//	assert.Truef(t, Exists(TestLog + "." + format), "로그 파일이 존재해야된다")
-	//
-	//	os.Remove(TestLog)
-	//	os.Remove(TestLog + "." + format)
-	//})
-
 	t.Run("로그 파일 로테이션 테스트", func(t *testing.T) {
 
 		logger := NewBuilder().
@@ -72,16 +43,6 @@ func Exists(name string) bool {
 		}
 	}
 	return true
-}
-
-func TestSlack(t *testing.T) {
-
-	slackObserver := observer.NewSlackWebHookObserver("https://hooks.slack.com/services/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", 0)
-	logger := NewBuilder().AddObserver(slackObserver).Build()
-	//logger := NewBuilder().Build()
-
-	logger.Debug("희희희", 123, " ㅂㅈㄷㅂㅈㄷ")
-
 }
 
 func TestSimpleConsoleLog(t *testing.T) {
@@ -129,30 +90,6 @@ func TestEncoderResultPrint(t *testing.T) {
 }
 
 func TestConsoleLogPrint(t *testing.T) {
-	//rawJSON := []byte(`{
-	//  "level": "debug",
-	//  "encoding": "json",
-	//  "outputPaths": ["stdout"],
-	//  "errorOutputPaths": ["stderr"],
-	//  "initialFields": {"foo": "bar"},
-	//  "encoderConfig": {
-	//    "messageKey": "message",
-	//    "levelKey": "level",
-	//    "levelEncoder": "lowercase"
-	//  }
-	//}`)
-	//
-	//var cfg zap.Config
-	//if err := json.Unmarshal(rawJSON, &cfg); err != nil {
-	//	panic(err)
-	//}
-	//logger, err := cfg.Build()
-	//if err != nil {
-	//	panic(err)
-	//}
-	//defer logger.Sync()
-	//
-	//logger.Info("logger construction succeeded")
 	lowPriority := zap.LevelEnablerFunc(func(lvl zapcore.Level) bool {
 		return lvl < zapcore.ErrorLevel
 	})
