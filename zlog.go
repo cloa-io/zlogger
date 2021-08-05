@@ -11,6 +11,10 @@ type ZLogger struct {
 	zap *zap.SugaredLogger
 }
 
+func (s ZLogger) Zap() *zap.Logger {
+	return zap.L()
+}
+
 func (s *ZLogger) Sync() error {
 	return s.zap.Sync()
 }
